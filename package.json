@@ -7,7 +7,8 @@
     "build": "webpack --watch --progress --config webpack.prod.js"
   },
   "dependencies": {
-    "react-router-dom": "^6.22.0"
+    "react-router-dom": "^6.22.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.188",
