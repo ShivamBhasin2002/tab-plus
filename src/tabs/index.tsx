@@ -1,9 +1,14 @@
-import React from 'react'
+import { createRoot } from "react-dom/client";
+import { NewTab } from "./newTab";
 
-const TabPlusDashboard = () => {
-  return (
-    <div>TabPlusDashboard</div>
-  )
+function init() {
+  const appContainer = document.createElement("div");
+  document.body.appendChild(appContainer);
+  if (!appContainer) {
+    throw new Error("Can not find AppContainer");
+  }
+  const root = createRoot(appContainer);
+  root.render(<NewTab />);
 }
 
-export default TabPlusDashboard
+init();
