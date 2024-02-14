@@ -8,13 +8,11 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "permissions": ["tabs", "bookmarks", "storage", "identity"],
+  "permissions": ["tabs", "bookmarks", "storage", "identity", "activeTab"],
   "chrome_url_overrides": {
     "newtab": "newTab.html"
   },
   "action": {
-    "default_popup": "popup.html",
-    "default_title": "Save Url",
     "default_icon": "icon.png"
   },
   "background": {

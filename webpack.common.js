@@ -28,6 +28,17 @@ module.exports = {
         type: "assets/resource",
         test: /\.(png|jpg|jpeg|gif|woff|woff2|tff|eot|svg)$/,
       },
+      {
+        test: /\.:tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [["@babel/preset-env", { targets: "defaults" }], ["@babel/preset-react", { runtime: "automatic" }], "@babel/preset-typescript"],
+            plugins: ["babel-plugin-styled-components"],
+          },
+        },
+      },
     ],
   },
   plugins: [
