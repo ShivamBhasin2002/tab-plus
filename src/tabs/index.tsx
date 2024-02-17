@@ -2,8 +2,9 @@ import { createRoot } from "react-dom/client";
 import { NewTab } from "./newTab";
 
 function init() {
-  const appContainer = document.createElement("div");
-  document.body.appendChild(appContainer);
+  const appContainer = document.createElement("body");
+  appContainer.style.margin = "0";
+  document.body.replaceWith(appContainer);
   if (!appContainer) {
     throw new Error("Can not find AppContainer");
   }
