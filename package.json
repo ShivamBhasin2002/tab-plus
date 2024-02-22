@@ -7,6 +7,7 @@
     "build": "webpack --watch --progress --config webpack.prod.js"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.5.0",
     "idb": "^8.0.0",
     "styled-components": "^6.1.8",
     "zustand": "^4.5.0"
