@@ -7,8 +7,10 @@ import { useEffect } from "react";
 import TabGroup from "./components/tabGroup";
 
 const Wrapper = styled.main`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  height: fit-content;
+  padding-bottom: 100px;
   background-color: ${COLORS.PRIMARY};
   display: flex;
   flex-direction: column;

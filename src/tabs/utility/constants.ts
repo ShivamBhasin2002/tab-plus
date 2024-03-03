@@ -5,4 +5,7 @@ export const COLORS = {
   SECONDARY: "#526D82",
   TERTIARY: "#9DB2BF",
   FONT: "#DDE6ED",
+  RED: "#BB2124",
+  GREEN: "#22BB33",
+  GRAY: "#AAAAAA",
 };

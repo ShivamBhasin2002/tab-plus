@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { connectToIDB, getIDBTransaction } from "./helpers";
+import { connectToIDB, getIDBTransaction, updateTagInDB } from "./helpers";
 
 type tabStateType = {
   tabs: Record<
@@ -25,9 +25,21 @@ export const useTabsStore = create<tabStateType>((set) => ({
   categories: [],
   tags: [],
   updateTags: (url, tagList) => {
-    const newTags = tagList.split(",").map((tag) => tag.trim());
+    const newTags = tagList
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag !== "");
     set(({ tabs }) => {
-      tabs[url].tags = newTags;
+      const currTab = tabs[url];
+      currTab.tags = newTags;
+      updateTagInDB({
+        iconUrl: currTab.iconUrl,
+        title: currTab.title,
+        url,
+        windowId: currTab.category,
+        timestamp: currTab.timestamp,
+        tags: tagList,
+      });
       return tabs;
     });
   },

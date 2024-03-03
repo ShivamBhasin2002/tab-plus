@@ -29,3 +29,9 @@ export const getIDBTransaction = (db: IDBPDatabase<unknown>) => {
   };
   return tx;
 };
+
+export const updateTagInDB = async (tab: any) => {
+  const db = await connectToIDB();
+  const tx = getIDBTransaction(db);
+  tx.store.put(tab);
+};

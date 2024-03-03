@@ -8,6 +8,9 @@ const TabGroupWrapper = styled.div`
   padding: 20px;
   border-radius: 10px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const TabGroup = ({ category }: { category: string }) => {
@@ -18,7 +21,7 @@ const TabGroup = ({ category }: { category: string }) => {
   return (
     <TabGroupWrapper>
       {categorizedTabs.map((tabUrl) => (
-        <Tab url={tabUrl} />
+        <Tab url={tabUrl} key={tabUrl} />
       ))}
     </TabGroupWrapper>
   );
