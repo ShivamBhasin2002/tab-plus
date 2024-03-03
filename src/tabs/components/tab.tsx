@@ -8,7 +8,6 @@ const TabWrapper = styled.div`
 
 const Tab = ({ url }: { url: string }) => {
   const { tabs } = useTabsStore((state) => state);
-  console.log(url);
   return <TabWrapper>{url}</TabWrapper>;
 };
 

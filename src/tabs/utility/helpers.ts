@@ -5,7 +5,6 @@ export const connectToIDB = () =>
   openDB(DB_NAME, 2, {
     async upgrade(db) {
       if (!db.objectStoreNames.contains(OBJECT_STORE_NAME)) {
-        console.log("hello");
         const objStore = db.createObjectStore(OBJECT_STORE_NAME, { keyPath: "url" });
         objStore.createIndex("iconUrl", "iconUrl");
         objStore.createIndex("title", "title");

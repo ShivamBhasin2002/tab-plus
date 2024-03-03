@@ -15,7 +15,6 @@ const TabGroup = ({ category }: { category: string }) => {
   const categorizedTabs = Object.entries(tabs)
     .filter(([_key, value]) => value.category === category)
     .map(([key]) => key);
-
   return (
     <TabGroupWrapper>
       {categorizedTabs.map((tabUrl) => (

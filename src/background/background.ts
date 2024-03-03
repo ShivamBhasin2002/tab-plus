@@ -31,7 +31,6 @@ chrome.action.onClicked.addListener(() => {
     chrome.tabs.create({}, function (newTab) {
       chrome.tabs.query({}, function (tabs) {
         tabs.forEach((tab) => {
-          console.log(tab);
           if (tab.id && tab.id !== newTab.id) chrome.tabs.remove(tab.id);
         });
       });

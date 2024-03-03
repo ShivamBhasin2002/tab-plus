@@ -42,6 +42,7 @@ export const useTabsStore = create<tabStateType>((set) => ({
     const tabs: tabStateType["tabs"] = {};
     tabsData.forEach((tab) => {
       const { iconUrl, title, url, windowId, timestamp, tags: storedTags } = tab;
+      if (!iconUrl || !title || !url) return;
       const processedTags = storedTags.split(",").map((tag: string) => tag.trim());
       if (!categories.includes(windowId)) categories.push(windowId);
       processedTags.forEach((tag: string) => {

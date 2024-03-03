@@ -16,7 +16,7 @@ const Wrapper = styled.main`
   gap: 20px;
   & > * {
     max-width: 1280px;
-    flex-grow: 1;
+    width: 100%;
   }
 `;
 
