@@ -35,3 +35,9 @@ export const updateTagInDB = async (tab: any) => {
   const tx = getIDBTransaction(db);
   tx.store.put(tab);
 };
+
+export const deleteTabInDB = async (url: string) => {
+  const db = await connectToIDB();
+  const tx = getIDBTransaction(db);
+  tx.store.delete(url);
+};

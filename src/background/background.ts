@@ -10,7 +10,7 @@ chrome.action.onClicked.addListener(() => {
         try {
           const existingData = await tx.store.get(tab.url ?? "");
           if (!existingData) {
-            return tx.store.add({
+            return tx.store.put({
               iconUrl: tab.favIconUrl,
               title: tab.title,
               url: tab.url,

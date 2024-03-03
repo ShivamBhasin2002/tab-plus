@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { connectToIDB, getIDBTransaction, updateTagInDB } from "./helpers";
+import { connectToIDB, deleteTabInDB, getIDBTransaction, updateTagInDB } from "./helpers";
 
 type tabStateType = {
   tabs: Record<
@@ -43,7 +43,15 @@ export const useTabsStore = create<tabStateType>((set) => ({
       return tabs;
     });
   },
-  deleteTab: (url) => {},
+  deleteTab: (url) => {
+    set(({ tabs, categories }) => {
+      const category = tabs[url].category;
+      delete tabs[url];
+      const deleteCategory = !Object.values(tabs).find((tab) => tab.category === category);
+      return deleteCategory ? { tabs, categories: categories.filter((t) => t !== category) } : tabs;
+    });
+    deleteTabInDB(url);
+  },
   editCategory: (category) => {},
   initializeState: async () => {
     const db = await connectToIDB();

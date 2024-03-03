@@ -86,7 +86,7 @@ const TabButton = styled.button<{ color: string }>`
 
 const Tab = ({ url }: { url: string }) => {
   const tagsInputRef = useRef<HTMLInputElement | null>(null);
-  const { tabs, updateTags } = useTabsStore((state) => state);
+  const { tabs, updateTags, deleteTab } = useTabsStore((state) => state);
   const { iconUrl, title, timestamp, tags } = tabs[url];
   const [isEditing, toggleEditing] = useState(false);
   const handleEdit = () => {
@@ -97,7 +97,9 @@ const Tab = ({ url }: { url: string }) => {
     updateTags(url, inputValue ?? "");
     toggleEditing(false);
   };
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteTab(url);
+  };
   const handleKeyPress = (e: any) => {
     console.log(e);
     if (e.keyCode === 27) handleEdit();
