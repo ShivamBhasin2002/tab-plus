@@ -1,5 +1,6 @@
 import { IDBPDatabase, openDB } from "idb";
 import { DB_NAME, OBJECT_STORE_NAME } from "./constants";
+import { tabObject, tabStateType } from "./stateHooks";
 
 export const connectToIDB = () =>
   openDB(DB_NAME, 2, {
@@ -40,4 +41,11 @@ export const deleteTabInDB = async (url: string) => {
   const db = await connectToIDB();
   const tx = getIDBTransaction(db);
   tx.store.delete(url);
+};
+
+export const sortTabs = ({ tabs, sortBy, sortOrder }: { tabs: [key: string, value: tabObject][]; sortBy: tabStateType["sortBy"]; sortOrder: tabStateType["sortOrder"] }) => {
+  if (!sortBy) return tabs;
+  return tabs.sort((a, b) => {
+    return sortOrder === "asc" ? a[1].timestamp - b[1].timestamp : b[1].timestamp - a[1].timestamp;
+  });
 };

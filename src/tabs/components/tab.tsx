@@ -19,6 +19,7 @@ const IconImage = styled.img`
   min-height: 20px;
   width: 20px;
   height: 20px;
+  cursor: pointer;
 `;
 
 const TabTitle = styled.div`
@@ -27,6 +28,7 @@ const TabTitle = styled.div`
   white-space: nowrap;
   width: 300px;
   text-overflow: ellipsis;
+  cursor: pointer;
   overflow: hidden;
 `;
 
@@ -35,6 +37,7 @@ const TabUrl = styled.div`
   white-space: nowrap;
   width: 300px;
   text-overflow: ellipsis;
+  cursor: pointer;
   overflow: hidden;
 `;
 
@@ -105,11 +108,14 @@ const Tab = ({ url }: { url: string }) => {
     if (e.keyCode === 27) handleEdit();
     if (e.keyCode === 13) handleDone();
   };
+  const openUrl = () => {
+    window.open(url, "_blank");
+  };
   return (
     <TabWrapper>
-      <IconImage src={iconUrl} alt={`${title} icon url: ${iconUrl}`} />
-      <TabTitle>{title}</TabTitle>
-      <TabUrl>{url}</TabUrl>
+      <IconImage src={iconUrl} alt={`${title} icon url: ${iconUrl}`} onClick={openUrl} />
+      <TabTitle onClick={openUrl}>{title}</TabTitle>
+      <TabUrl onClick={openUrl}>{url}</TabUrl>
       <TabTimeStamp>{new Date(timestamp).toLocaleDateString("en-US")}</TabTimeStamp>
       <TabTagsWrapper>{isEditing ? <TagsEditInput autoFocus onKeyUp={handleKeyPress} ref={tagsInputRef} defaultValue={tags.join(", ")} /> : tags.map((tag) => tag && <TabTag key={`${url} ${tag}`}>{tag}</TabTag>)}</TabTagsWrapper>
       {isEditing && (

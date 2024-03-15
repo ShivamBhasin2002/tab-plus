@@ -10,17 +10,16 @@ type searchStateType = {
   sortOrder?: "asc" | "dsc" | null;
 };
 
-type tabStateType = {
-  tabs: Record<
-    string,
-    {
-      iconUrl: string;
-      tags: string[];
-      timestamp: number;
-      title: string;
-      category: number | string;
-    }
-  >;
+export type tabObject = {
+  iconUrl: string;
+  tags: string[];
+  timestamp: number;
+  title: string;
+  category: number | string;
+};
+
+export type tabStateType = {
+  tabs: Record<string, tabObject>;
   rawTabData: any[];
   categories: string[];
   tags: string[];

@@ -3,6 +3,7 @@ import { COLORS } from "../utility/constants";
 import { useState } from "react";
 
 import { FaSortAlphaDown, FaSortAlphaUp, FaRegEye, FaDownload } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
 import { useTabsStore } from "../utility/stateHooks";
 
 const SearchBarWrapper = styled.div`
@@ -55,7 +56,7 @@ const SearchInput = styled.div<{ focused: boolean }>`
   }
 `;
 
-const SearchByButton = styled.button<{ curved?: boolean; curvedRight?: boolean; curvedLeft?: boolean; isActive?: boolean; color?: string; activeFontColor?: string; minWidth?: string }>`
+export const SearchByButton = styled.button<{ curved?: boolean; curvedRight?: boolean; curvedLeft?: boolean; isActive?: boolean; color?: string; activeFontColor?: string; minWidth?: string; showHoverState?: boolean }>`
   background-color: #ffffff00;
   color: ${COLORS.FONT};
   min-width: ${({ minWidth }) => minWidth ?? "80px"};
@@ -96,18 +97,20 @@ const SearchByButton = styled.button<{ curved?: boolean; curvedRight?: boolean; 
       `;
   }}
   ${({ isActive, color, activeFontColor }) =>
-    isActive
-      ? `
-        background-color: ${color ?? COLORS.GRAY};
-        color: ${activeFontColor ?? COLORS.PRIMARY};
-      `
-      : `
-        &:hover {
-          background-color: ${COLORS.TERTIARY};
-          color: ${COLORS.PRIMARY};
-          border-color: ${COLORS.TERTIARY};
-        }
-      `};
+    isActive &&
+    `
+      background-color: ${color ?? COLORS.GRAY};
+      color: ${activeFontColor ?? COLORS.PRIMARY};
+    `};
+  ${({ showHoverState = true }) =>
+    showHoverState &&
+    `
+      &:hover {
+        background-color: ${COLORS.TERTIARY};
+        color: ${COLORS.PRIMARY};
+        border-color: ${COLORS.TERTIARY};
+      }
+    `};
 `;
 
 export const SectionContainer = styled.div`
@@ -144,7 +147,7 @@ const SearchBar = () => {
         </SearchByButton>
       </SectionContainer>
       <SectionContainer>
-        <SearchByButton curvedLeft isActive>
+        <SearchByButton curvedLeft isActive showHoverState={false}>
           Group By:
         </SearchByButton>
         <SearchByButton
@@ -180,13 +183,14 @@ const SearchBar = () => {
         </SearchByButton>
       </SectionContainer>
       <SectionContainer>
-        <SearchByButton curvedLeft isActive>
+        <SearchByButton curvedLeft isActive showHoverState={false}>
           Sort By:
         </SearchByButton>
         <SearchByButton
           isActive={sortBy === "date"}
           color={COLORS.SECONDARY}
           activeFontColor={COLORS.FONT}
+          curvedRight
           onClick={() => {
             if (sortBy === "date" && sortOrder === "asc") {
               setSearchParams({ sortOrder: "dsc" });
@@ -201,25 +205,6 @@ const SearchBar = () => {
           {sortBy === "date" && sortOrder === "asc" && <FaSortAlphaDown className="push-right" />}
           {sortBy === "date" && sortOrder === "dsc" && <FaSortAlphaUp className="push-right" />}
         </SearchByButton>
-        <SearchByButton
-          isActive={sortBy === "tags"}
-          color={COLORS.SECONDARY}
-          activeFontColor={COLORS.FONT}
-          curvedRight
-          onClick={() => {
-            if (sortBy === "tags" && sortOrder === "asc") {
-              setSearchParams({ sortOrder: "dsc" });
-            } else if (sortBy === "tags" && sortOrder === "dsc") {
-              setSearchParams({ sortBy: null, sortOrder: null });
-            } else {
-              setSearchParams({ sortBy: "tags", sortOrder: "asc" });
-            }
-          }}
-        >
-          Tag
-          {sortBy === "tags" && sortOrder === "asc" && <FaSortAlphaDown className="push-right" />}
-          {sortBy === "tags" && sortOrder === "dsc" && <FaSortAlphaUp className="push-right" />}
-        </SearchByButton>
       </SectionContainer>
       <SectionContainer>
         <SearchByButton curvedLeft isActive>
@@ -228,8 +213,11 @@ const SearchBar = () => {
         <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} title="view tags" aria-label="view-tags" minWidth="min-content" onClick={() => {}}>
           <FaRegEye />
         </SearchByButton>
-        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" curvedRight onClick={() => {}}>
+        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" onClick={() => {}}>
           <FaDownload />
+        </SearchByButton>
+        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" curvedRight onClick={() => {}}>
+          <IoLogOutOutline />
         </SearchByButton>
       </SectionContainer>
     </SearchBarWrapper>
