@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useTabsStore } from "../utility/stateHooks";
 import Tab from "./tab";
 import { COLORS } from "../utility/constants";
-import { sortTabs } from "../utility/helpers";
+import { openTabsInNewWindow, sortTabs } from "../utility/helpers";
 import { SearchByButton } from "./searchbar";
 import { IoLogOutOutline } from "react-icons/io5";
 
@@ -34,7 +34,16 @@ export const TabGroup = ({ category }: { category: string }) => {
     <TabGroupWrapper>
       <div className="group-label">
         {groupBy === "date" ? new Date(category).toLocaleDateString("en-US") : category}
-        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" curved onClick={() => {}}>
+        <SearchByButton
+          isActive
+          color={COLORS.SECONDARY}
+          activeFontColor={COLORS.FONT}
+          minWidth="min-content"
+          curved
+          onClick={() => {
+            openTabsInNewWindow(categorizedTabs);
+          }}
+        >
           <IoLogOutOutline />
         </SearchByButton>
       </div>

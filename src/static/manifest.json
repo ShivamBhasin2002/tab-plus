@@ -8,7 +8,7 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "permissions": ["tabs", "bookmarks", "storage", "identity", "activeTab"],
+  "permissions": ["tabs", "bookmarks", "storage", "identity", "activeTab", "downloads"],
   "chrome_url_overrides": {
     "newtab": "newTab.html"
   },

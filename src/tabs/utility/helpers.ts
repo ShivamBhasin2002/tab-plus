@@ -49,3 +49,15 @@ export const sortTabs = ({ tabs, sortBy, sortOrder }: { tabs: [key: string, valu
     return sortOrder === "asc" ? a[1].timestamp - b[1].timestamp : b[1].timestamp - a[1].timestamp;
   });
 };
+
+export const openTabsInNewWindow = async (tabs: [key: string, value: tabObject][]) => {
+  const { id } = await chrome.windows.create({ url: tabs[0][0] });
+  tabs.forEach(([key], idx) => {
+    if (idx === 0) return;
+    chrome.tabs.create({
+      url: key,
+      windowId: id,
+      active: idx === 0,
+    });
+  });
+};

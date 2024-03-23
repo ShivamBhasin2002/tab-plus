@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { COLORS } from "../utility/constants";
 import { useState } from "react";
-
-import { FaSortAlphaDown, FaSortAlphaUp, FaRegEye, FaDownload } from "react-icons/fa";
+import { saveAs } from "file-saver";
+import { FaSortAlphaDown, FaSortAlphaUp, FaRegEye } from "react-icons/fa";
+import { CiImport, CiExport } from "react-icons/ci";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useTabsStore } from "../utility/stateHooks";
+import { connectToIDB, getIDBTransaction, openTabsInNewWindow } from "../utility/helpers";
 
 const SearchBarWrapper = styled.div`
   display: flex;
@@ -118,7 +120,7 @@ export const SectionContainer = styled.div`
 `;
 
 const SearchBar = () => {
-  const { searchKey, isTitleActive, isTagsActive, groupBy, sortBy, sortOrder, setSearchParams } = useTabsStore((state) => state);
+  const { searchKey, isTitleActive, isTagsActive, groupBy, sortBy, sortOrder, setSearchParams, categories, tabs } = useTabsStore((state) => state);
   const [isFocused, toggleFocus] = useState(false);
   return (
     <SearchBarWrapper>
@@ -213,10 +215,41 @@ const SearchBar = () => {
         <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} title="view tags" aria-label="view-tags" minWidth="min-content" onClick={() => {}}>
           <FaRegEye />
         </SearchByButton>
-        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" onClick={() => {}}>
-          <FaDownload />
+        <SearchByButton
+          isActive
+          color={COLORS.SECONDARY}
+          activeFontColor={COLORS.FONT}
+          minWidth="min-content"
+          onClick={async () => {
+            const db = await connectToIDB();
+            const tx = getIDBTransaction(db);
+            const tabsData = await tx.store.getAll();
+            const blob = new Blob([JSON.stringify(tabsData)], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "tab-plus-json");
+          }}
+        >
+          <CiExport />
         </SearchByButton>
-        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" curvedRight onClick={() => {}}>
+        <SearchByButton isActive color={COLORS.SECONDARY} activeFontColor={COLORS.FONT} minWidth="min-content" onClick={() => {}}>
+          <CiImport />
+        </SearchByButton>
+        <SearchByButton
+          isActive
+          color={COLORS.SECONDARY}
+          activeFontColor={COLORS.FONT}
+          minWidth="min-content"
+          curvedRight
+          onClick={() => {
+            categories.forEach((category) => {
+              const categorizedTabs = Object.entries(tabs).filter(([_key, value]) => {
+                if (groupBy === "category") return value.category === category;
+                if (groupBy === "date") return new Date(value.timestamp).toLocaleDateString("en-US") === category;
+                if (groupBy === "tags") return value.tags.includes(category);
+              });
+              openTabsInNewWindow(categorizedTabs);
+            });
+          }}
+        >
           <IoLogOutOutline />
         </SearchByButton>
       </SectionContainer>

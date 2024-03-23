@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.5.0",
+    "file-saver": "^2.0.5",
     "idb": "^8.0.0",
     "react-icons": "^5.0.1",
     "styled-components": "^6.1.8",
@@ -19,6 +20,7 @@
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@types/chrome": "^0.0.188",
+    "@types/file-saver": "^2.0.7",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "babel-loader": "^9.1.3",
