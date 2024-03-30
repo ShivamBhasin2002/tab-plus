@@ -67,11 +67,12 @@ const TagsEditInput = styled.input`
   color: ${COLORS.FONT};
 `;
 
-const TabTag = styled.div`
+export const TabTag = styled.div`
   padding: 5px 10px;
   background-color: ${COLORS.TERTIARY}30;
   color: ${COLORS.FONT};
   border-radius: 10px;
+  max-height: 24px;
 `;
 
 const TabButton = styled.button<{ color: string }>`
