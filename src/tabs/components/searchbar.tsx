@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 import { FaSortAlphaDown, FaSortAlphaUp, FaRegEye } from "react-icons/fa";
 import { CiImport, CiExport } from "react-icons/ci";
 import { IoLogOutOutline } from "react-icons/io5";
-import { useTabsStore } from "../utility/stateHooks";
-import { connectToIDB, downloadObjectAsJson, getIDBTransaction, openTabsInNewWindow } from "../utility/helpers";
+import { tabObject, useTabsStore } from "../utility/stateHooks";
+import { connectToIDB, downloadObjectAsJson, getIDBTransaction, openTabsInNewWindow, updateTagInDB } from "../utility/helpers";
 import { TabTag } from "./tab";
 
 const SearchBarWrapper = styled.div`
@@ -157,6 +157,9 @@ const InputModal = styled.dialog`
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
+  .sample {
+    color: white;
+  }
   input {
     font-size: 100%;
     padding: 0.8em;
@@ -176,7 +179,8 @@ const SearchBar = () => {
   const [isFocused, toggleFocus] = useState(false);
   const [showTagsModal, toggleTagsModal] = useState(false);
   const [showInputModal, toggleInputModal] = useState(false);
-  const refModal = useRef<HTMLDialogElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <>
       <SearchBarWrapper>
@@ -330,34 +334,40 @@ const SearchBar = () => {
       {(showTagsModal || showInputModal) && (
         <ModalWrapper
           onClick={(e) => {
-            if (refModal.current?.contains(e.target as Node)) return;
+            if (modalRef.current?.contains(e.target as Node)) return;
             toggleTagsModal(false);
             toggleInputModal(false);
           }}
         >
           {showTagsModal && (
-            <TagsModal
-              open={showTagsModal}
-              ref={refModal}
-              onClose={() => {
-                toggleTagsModal(false);
-              }}
-            >
+            <TagsModal open={showTagsModal} ref={modalRef}>
               {tags.map((tag) => (
                 <TabTag>{tag}</TabTag>
               ))}
             </TagsModal>
           )}
           {showInputModal && (
-            <InputModal
-              open={showInputModal}
-              ref={refModal}
-              onClose={() => {
-                toggleInputModal(false);
-              }}
-            >
-              <input />
-              <SearchByButton curved>Submit</SearchByButton>
+            <InputModal open={showInputModal} ref={modalRef}>
+              <div className="sample">&#123; "title": "", "url": "", "windowId": 0, "timestamp": 0, "tags": "" &#125;[]</div>
+              <input ref={inputRef} />
+              <SearchByButton
+                curved
+                onClick={() => {
+                  const inputJSON: any[] = JSON.parse(inputRef.current?.value ?? "");
+                  inputJSON.forEach((tab) => {
+                    if (typeof tab !== "object") return;
+                    if (typeof tab.title !== "string") return;
+                    if (typeof tab.url !== "string") return;
+                    if (typeof tab.windowId !== "number") return;
+                    if (typeof tab.timestamp !== "number") return;
+                    if (typeof tab.tags !== "string") return;
+                    updateTagInDB(tab);
+                  });
+                  toggleInputModal(false);
+                }}
+              >
+                Submit
+              </SearchByButton>
             </InputModal>
           )}
         </ModalWrapper>
